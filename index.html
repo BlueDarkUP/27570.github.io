@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>代码细分查看器</title>
+    <title>代码学习平台</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -17,144 +17,140 @@
         }
 
         .container {
-            max-width: 1200px;
-            padding: 0 20px;
+            max-width: 1400px;
+            padding: 20px;
             box-sizing: border-box;
-        }
-
-        .nav-container {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 40px auto 30px;
-            background-color: #fff;
-            padding: 20px 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 1000px;
-        }
+            flex-direction: column;
+            align-items: center; /* Center the button initially */
 
-        .nav-button {
-            padding: 14px 30px;
-            margin: 10px;
+        }
+          .learn-button-container {
+              margin: 20px 0; /* add some vertical space */
+             display: flex;
+            justify-content: center; /* Center the button horizontally */
+            width: 100%; /* Ensure it occupies full width */
+          }
+
+
+        .learn-button {
+            padding: 15px 30px;
             border: none;
             border-radius: 30px;
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
             font-weight: 600;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+              text-align: center;
+              position: relative;
+              overflow: hidden;
         }
-
-        .nav-button::before {
-            content: '';
+        .learn-button::before {
+          content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2); /* 半透明白色 */
             opacity: 0;
             transition: opacity 0.2s;
         }
-
-        .nav-button:hover::before {
-            opacity: 1;
+        .learn-button:hover::before {
+          opacity: 1;
         }
 
-        .nav-button:hover {
+        .learn-button:hover {
             background-color: #45a049;
             transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+             box-shadow: 0 5px 12px rgba(0,0,0,0.18);
         }
 
-
-        .code-section {
-            display: none;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 0 auto 30px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
+        .code-explanation-container {
+           display: none;
+           flex-direction: row;
+            justify-content: center;
             width: 100%;
-            max-width: 1000px;
-            box-sizing: border-box;
+           margin-bottom: 30px;
+
+        }
+         .code-explanation-container.active {
+           display: flex;
+        }
+        .code-container {
+             flex: 2; /* Takes up 2/3 of the space */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
+              overflow-x: auto;
+            white-space: pre-wrap;
         }
 
-        .code-section.active {
-            display: block;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .code-section pre{
+        .explanation-container {
+           flex: 1; /* Takes up 1/3 of the space */
+            padding: 20px;
             background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+             border: 1px solid #eee;
+            margin-left: 20px; /* Adds some space between code and explanation */
+            overflow-y: auto;
+            max-height: 600px;
         }
-        .code-section h2 {
-            margin-top: 0;
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 15px;
-            font-weight: 600;
-        }
+            .explanation-container h2{
+                margin-top:0;
+                border-bottom: 2px solid #ddd;
+                 padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+
+         .code-line{
+          display: block;
+             cursor: pointer;
+          transition: background-color 0.2s;
+             padding: 2px 5px;
+             white-space: pre;
+         }
+         .code-line:hover {
+             background-color: #e0e0e0;
+         }
+         .code-line.selected{
+             background-color: #d0f0c0;
+         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="nav-container">
-        <a href="#package_import" class="nav-button" data-target="package_import">包导入</a>
-        <a href="#class_declaration" class="nav-button" data-target="class_declaration">类声明</a>
-        <a href="#constants" class="nav-button" data-target="constants">常量定义</a>
-        <a href="#enum_state" class="nav-button" data-target="enum_state">枚举状态</a>
-        <a href="#variables" class="nav-button" data-target="variables">变量定义</a>
-        <a href="#hardware_declaration" class="nav-button" data-target="hardware_declaration">硬件声明</a>
-        <a href="#time_variables" class="nav-button" data-target="time_variables">时间变量</a>
-        <a href="#runOpMode" class="nav-button" data-target="runOpMode">runOpMode</a>
-        <a href="#handleClawShuControl" class="nav-button" data-target="handleClawShuControl">爪子角度控制</a>
-        <a href="#resetIMU" class="nav-button" data-target="resetIMU">重置IMU</a>
-        <a href="#isRobotStationary" class="nav-button" data-target="isRobotStationary">机器人是否停止</a>
-        <a href="#stopDriveMotors" class="nav-button" data-target="stopDriveMotors">停止电机</a>
-        <a href="#driveRobot" class="nav-button" data-target="driveRobot">驱动机器人</a>
-        <a href="#handleLeftBumper" class="nav-button" data-target="handleLeftBumper">左保险杠</a>
-        <a href="#handleFrame" class="nav-button" data-target="handleFrame">控制框</a>
-        <a href="#checkReset" class="nav-button" data-target="checkReset">检查重置</a>
-        <a href="#resetAll" class="nav-button" data-target="resetAll">重置所有</a>
-        <a href="#initializeHardware" class="nav-button" data-target="initializeHardware">初始化硬件</a>
-        <a href="#initializeServos" class="nav-button" data-target="initializeServos">初始化舵机</a>
-        <a href="#initializeOdometry" class="nav-button" data-target="initializeOdometry">初始化里程计</a>
-        <a href="#setInitialServoPositions" class="nav-button" data-target="setInitialServoPositions">设置初始舵机位置</a>
-        <a href="#controlClaw" class="nav-button" data-target="controlClaw">控制爪子</a>
-        <a href="#controlServos" class="nav-button" data-target="controlServos">控制舵机</a>
-        <a href="#setSlidePosition" class="nav-button" data-target="setSlidePosition">设置滑轨位置</a>
-        <a href="#isSlideBusy" class="nav-button" data-target="isSlideBusy">滑轨是否忙碌</a>
-        <a href="#handleSlideMovement" class="nav-button" data-target="handleSlideMovement">滑轨运动控制</a>
-        <a href="#debounce" class="nav-button" data-target="debounce">按钮防抖</a>
-        <a href="#updateTelemetry" class="nav-button" data-target="updateTelemetry">更新遥测</a>
+     <div class="learn-button-container">
+         <button class="learn-button" id="learnButton">开始学习</button>
+     </div>
 
+
+    <div class="code-explanation-container" id="codeExplanationContainer">
+        <div class="code-container" id="codeContainer">
+        </div>
+        <div class="explanation-container" id="explanationContainer">
+            <h2>代码解释</h2>
+             <p>点击代码的某一行，这里会显示详细解释.</p>
+        </div>
     </div>
+</div>
 
-    <div id="package_import" class="code-section">
-        <h2>包导入</h2>
-        <pre><code>package org.firstinspires.ftc.teamcode.TeleOp;
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const learnButton = document.getElementById('learnButton');
+        const codeExplanationContainer = document.getElementById('codeExplanationContainer');
+         const codeContainer = document.getElementById('codeContainer');
+          const explanationContainer = document.getElementById('explanationContainer');
+
+        const code = `package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -166,58 +162,30 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-</code></pre>
-    </div>
 
-    <div id="class_declaration" class="code-section">
-        <h2>类声明</h2>
-        <pre><code>@TeleOp(name = "比赛用手动程序", group = "Competition")
+@TeleOp(name = "比赛用手动程序", group = "Competition")
 public class SingleStickWithRR extends LinearOpMode {
-</code></pre>
-    </div>
-
-    <div id="constants" class="code-section">
-        <h2>常量定义</h2>
-        <pre><code>
+    private MecanumDrive drive;
+    private Pose2d recordedPoseBasket = null;
+    private Pose2d recordedPoseChamber = null;
     private static final double CLAW_INCREMENT = 0.4, DEBOUNCE_DELAY = 200, SLIDE_DOWN_POWER = -0.6, FRAME_HOLD_POSITION = 0, FRAME_INITIAL_POSITION = 0.7, CLAW_SHU_ROTATE_POSITION = 1.0, CLAW_SHU_INITIAL_POSITION = 0.0, SERVO_SPEED_MULTIPLIER = 0.3, FRAME_SERVO_SPEED = 1, DRIVE_STOP_THRESHOLD = 0.01;
     private static final int SLIDE_HIGH = 2580, SLIDE_MID = 1350, SLIDE_HANG = 930, SLIDE_HOME = 0, SLIDE_HIGH_START = 2000;
-</code></pre>
-    </div>
 
-    <div id="enum_state" class="code-section">
-        <h2>枚举状态</h2>
-        <pre><code>    private enum SlideState { IDLE, MOVING_TO_POSITION, MANUAL_DOWN, HANGING_PAUSE }
+    private enum SlideState { IDLE, MOVING_TO_POSITION, MANUAL_DOWN, HANGING_PAUSE }
     private SlideState slideState = SlideState.IDLE;
-</code></pre>
-    </div>
-    <div id="variables" class="code-section">
-        <h2>变量定义</h2>
-        <pre><code>
+
     private boolean isClawShuRotating = false, isFrameMoving = false, isAutoSlideDown = false, isClawOpen = false, isForwardClawOpen = false, isClawHengOpen = true, armForwardPosition = true, isFirstReset = true, isLeftBumperFirstPress = true;
     private double clawPosition = 0.0, clawShuCurrentPos = 0.0, clawHengCurrentPos = 0.0, frameCurrentPosition = FRAME_INITIAL_POSITION, clawShuInitPosition = 0.0, initialHeading = 0;
 
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;
     private Servo backgrap, forward_slide, arm_forward, claw_shu, forward_claw, claw_heng, frame;
     private GoBildaPinpointDriver odo;
-</code></pre>
-    </div>
-    <div id="hardware_declaration" class="code-section">
-        <h2>硬件声明</h2>
-        <pre><code>    private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;
-    private Servo backgrap, forward_slide, arm_forward, claw_shu, forward_claw, claw_heng, frame;
-    private GoBildaPinpointDriver odo;
-</code></pre>
-    </div>
-    <div id="time_variables" class="code-section">
-        <h2>时间变量</h2>
-        <pre><code>   private long lastOptionButtonPressTime = 0, lastSquareButtonPressTime = 0, lastForwardButtonPressTime = 0, lastBackButtonPressTime = 0, lastCircleButtonPressTime = 0, lastTriangleButtonPressTime = 0, lastCrossButtonPressTime = 0, lastRightStickPressTime = 0, frameMoveStartTime = 0;
-    private long hangStartTime = 0;
-</code></pre>
-    </div>
 
-    <div id="runOpMode" class="code-section">
-        <h2>runOpMode</h2>
-        <pre><code>  @Override
+    private long lastOptionButtonPressTime = 0, lastSquareButtonPressTime = 0, lastForwardButtonPressTime = 0, lastBackButtonPressTime = 0, lastCircleButtonPressTime = 0, lastTriangleButtonPressTime = 0, lastCrossButtonPressTime = 0, lastRightStickPressTime = 0, frameMoveStartTime = 0;
+    private long hangStartTime = 0;
+
+
+    @Override
     public void runOpMode() {
         initializeHardware();
         initializeServos();
@@ -247,11 +215,7 @@ public class SingleStickWithRR extends LinearOpMode {
             updateTelemetry(robotHeading);
         }
     }
-</code></pre>
-    </div>
-    <div id="handleClawShuControl" class="code-section">
-        <h2>爪子角度控制</h2>
-        <pre><code>
+
     private void handleClawShuControl() {
         double rightStickY = gamepad1.right_stick_y, rightStickX = gamepad1.right_stick_x;
 
@@ -270,12 +234,7 @@ public class SingleStickWithRR extends LinearOpMode {
             resetIMU();
         }
     }
-</code></pre>
-    </div>
 
-    <div id="resetIMU" class="code-section">
-        <h2>重置IMU</h2>
-        <pre><code>
     private void resetIMU() {
         stopDriveMotors();
         telemetry.addData("IMU", "正在重置,请保持机器人静止...");
@@ -292,34 +251,19 @@ public class SingleStickWithRR extends LinearOpMode {
         telemetry.update();
         sleep(500);
     }
-</code></pre>
-    </div>
 
-    <div id="isRobotStationary" class="code-section">
-        <h2>机器人是否停止</h2>
-        <pre><code>
     private boolean isRobotStationary() {
         return Math.abs(leftFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(leftBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD;
     }
-</code></pre>
-    </div>
 
-    <div id="stopDriveMotors" class="code-section">
-        <h2>停止电机</h2>
-        <pre><code>
     private void stopDriveMotors() {
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
     }
-</code></pre>
-    </div>
 
-    <div id="driveRobot" class="code-section">
-        <h2>驱动机器人</h2>
-        <pre><code>
-  private void driveRobot(double robotHeading) {
+    private void driveRobot(double robotHeading) {
         double y = gamepad1.left_stick_y, x = -gamepad1.left_stick_x, rx = gamepad1.right_trigger - gamepad1.left_trigger;
         double rotX = x * Math.cos(-Math.toRadians(robotHeading)) - y * Math.sin(-Math.toRadians(robotHeading)); //无头模式
         double rotY = x * Math.sin(-Math.toRadians(robotHeading)) + y * Math.cos(-Math.toRadians(robotHeading));
@@ -330,13 +274,8 @@ public class SingleStickWithRR extends LinearOpMode {
         leftBackDrive.setPower((rotY - rotX + rx) / denominator);
         rightBackDrive.setPower((rotY + rotX - rx) / denominator);
     }
-</code></pre>
-    </div>
 
-    <div id="handleLeftBumper" class="code-section">
-        <h2>左保险杠</h2>
-        <pre><code>
- private void handleLeftBumper() {
+    private void handleLeftBumper() {
         if (isLeftBumperFirstPress) { //记录位置
             recordedPoseBasket = drive.pose;
             telemetry.addData("Recorded Pose Basket", "X: %.2f, Y: %.2f, Heading: %.2f", recordedPoseBasket.position.x, recordedPoseBasket.position.y, Math.toDegrees(recordedPoseBasket.heading.toDouble()));
@@ -357,13 +296,8 @@ public class SingleStickWithRR extends LinearOpMode {
             slideState = SlideState.MOVING_TO_POSITION;
         }
     }
-</code></pre>
-    </div>
 
-    <div id="handleFrame" class="code-section">
-        <h2>控制框</h2>
-        <pre><code>
- private void handleFrame() {
+    private void handleFrame() {
         if (isFrameMoving && frameCurrentPosition == FRAME_HOLD_POSITION && (System.currentTimeMillis() - frameMoveStartTime >= 490)) {
             isFrameMoving = false;
         }
@@ -372,24 +306,14 @@ public class SingleStickWithRR extends LinearOpMode {
             frame.setPosition(frameCurrentPosition);
         }
     }
-</code></pre>
-    </div>
 
-    <div id="checkReset" class="code-section">
-        <h2>检查重置</h2>
-        <pre><code>
-  private void checkReset() {
+    private void checkReset() {
         if (gamepad1.options && debounce(lastOptionButtonPressTime)) {
             lastOptionButtonPressTime = System.currentTimeMillis();
             resetAll();
         }
     }
-</code></pre>
-    </div>
 
-    <div id="resetAll" class="code-section">
-        <h2>重置所有</h2>
-        <pre><code>
     private void resetAll() {
         setInitialServoPositions();
         isClawOpen = false;
@@ -411,12 +335,7 @@ public class SingleStickWithRR extends LinearOpMode {
         claw_heng.setPosition(clawHengCurrentPos);
         isLeftBumperFirstPress = true;
     }
-</code></pre>
-    </div>
 
-    <div id="initializeHardware" class="code-section">
-        <h2>初始化硬件</h2>
-        <pre><code>
     private void initializeHardware() {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "RightBehindMotor");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "LeftBehindMotor");
@@ -441,13 +360,8 @@ public class SingleStickWithRR extends LinearOpMode {
         Left_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Right_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-</code></pre>
-    </div>
 
-    <div id="initializeServos" class="code-section">
-        <h2>初始化舵机</h2>
-        <pre><code>
-   private void initializeServos() {
+    private void initializeServos() {
         backgrap = hardwareMap.get(Servo.class, "backgrap");
         forward_slide = hardwareMap.get(Servo.class, "forward_slide");
         arm_forward = hardwareMap.get(Servo.class, "arm_forward");
@@ -461,12 +375,7 @@ public class SingleStickWithRR extends LinearOpMode {
         claw_heng.setPosition(0.55);
         forward_claw.setPosition(1);
     }
-</code></pre>
-    </div>
 
-    <div id="initializeOdometry" class="code-section">
-        <h2>初始化里程计</h2>
-        <pre><code>
     private void initializeOdometry() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "goBILDAPinpoint");
         odo.setOffsets(5.5, 121.0);
@@ -475,23 +384,13 @@ public class SingleStickWithRR extends LinearOpMode {
         resetIMU();
         sleep(200);
     }
-</code></pre>
-    </div>
 
-    <div id="setInitialServoPositions" class="code-section">
-        <h2>设置初始舵机位置</h2>
-        <pre><code>
     private void setInitialServoPositions() {
         forward_slide.setPosition(1);
         arm_forward.setPosition(0.8);
         claw_shu.setPosition(CLAW_SHU_INITIAL_POSITION);
     }
-</code></pre>
-    </div>
 
-    <div id="controlClaw" class="code-section">
-        <h2>控制爪子</h2>
-        <pre><code>
     private void controlClaw() {
         if (gamepad1.square && debounce(lastSquareButtonPressTime)) {
             lastSquareButtonPressTime = System.currentTimeMillis();
@@ -500,13 +399,8 @@ public class SingleStickWithRR extends LinearOpMode {
             isClawOpen = !isClawOpen;
         }
     }
-</code></pre>
-    </div>
 
-    <div id="controlServos" class="code-section">
-        <h2>控制舵机</h2>
-        <pre><code>
-  private void controlServos() {
+    private void controlServos() {
         if (gamepad1.dpad_up && debounce(lastForwardButtonPressTime)) {
             lastForwardButtonPressTime = System.currentTimeMillis();
             forward_slide.setPosition(0.4);
@@ -547,12 +441,7 @@ public class SingleStickWithRR extends LinearOpMode {
             isClawHengOpen = !isClawHengOpen;
         }
     }
-</code></pre>
-    </div>
 
-    <div id="setSlidePosition" class="code-section">
-        <h2>设置滑轨位置</h2>
-        <pre><code>
     private void setSlidePosition(int position) {
         Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -566,21 +455,11 @@ public class SingleStickWithRR extends LinearOpMode {
         Left_Hanging_Motor.setPower(1);
         Right_Hanging_Motor.setPower(1);
     }
-</code></pre>
-    </div>
 
-    <div id="isSlideBusy" class="code-section">
-        <h2>滑轨是否忙碌</h2>
-        <pre><code>
-   private boolean isSlideBusy() {
+    private boolean isSlideBusy() {
         return !Left_Hanging_Motor.isBusy() && !Right_Hanging_Motor.isBusy();
     }
-</code></pre>
-    </div>
 
-    <div id="handleSlideMovement" class="code-section">
-        <h2>滑轨运动控制</h2>
-        <pre><code>
     private void handleSlideMovement() {
         if (slideState == SlideState.IDLE) {
             Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -676,22 +555,12 @@ public class SingleStickWithRR extends LinearOpMode {
             isAutoSlideDown = false;
         }
     }
-</code></pre>
-    </div>
 
-    <div id="debounce" class="code-section">
-        <h2>按钮防抖</h2>
-        <pre><code>
     private boolean debounce(long lastPressTime) {
         return (System.currentTimeMillis() - lastPressTime) > DEBOUNCE_DELAY;
     }
-</code></pre>
-    </div>
 
-    <div id="updateTelemetry" class="code-section">
-        <h2>更新遥测</h2>
-        <pre><code>
-   private void updateTelemetry(double robotHeading) {
+    private void updateTelemetry(double robotHeading) {
         telemetry.addData("状态", "运行中");
         telemetry.addData("GoBildaIMU", "%.2f", robotHeading);
         telemetry.addData("滑轨", "左:%d, 右:%d", Left_Hanging_Motor.getCurrentPosition(), Right_Hanging_Motor.getCurrentPosition());
@@ -703,32 +572,354 @@ public class SingleStickWithRR extends LinearOpMode {
         telemetry.addData("提示", "按下圆形按键控制前爪, 右摇杆控制前爪自由度,  三角键：前爪横向自由度， 交叉键：小臂");
         telemetry.update();
     }
-</code></pre>
-    </div>
-</div>
+}
+`;
+        const explanations = {
+          "package org.firstinspires.ftc.teamcode.TeleOp;": "定义当前代码所在的包名，用于组织代码。",
+          "import com.acmerobotics.roadrunner.Pose2d;": "导入Road Runner库的Pose2d类，用于表示机器人姿态（位置和方向）。",
+          "import com.acmerobotics.roadrunner.ftc.Actions;": "导入Road Runner库的Actions类，用于执行机器人动作。",
+          "import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;": "导入FTC SDK的LinearOpMode类，用于创建线性操作模式。",
+          "import com.qualcomm.robotcore.eventloop.opmode.TeleOp;": "导入FTC SDK的TeleOp注解，用于标记该类为手动操作模式。",
+          "import com.qualcomm.robotcore.hardware.DcMotor;": "导入FTC SDK的DcMotor类，用于控制直流电机。",
+          "import com.qualcomm.robotcore.hardware.DcMotorSimple;": "导入FTC SDK的DcMotorSimple类，用于设置直流电机的方向。",
+          "import com.qualcomm.robotcore.hardware.Servo;": "导入FTC SDK的Servo类，用于控制舵机。",
+          "import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;": "导入FTC SDK的AngleUnit枚举，用于指定角度的单位。",
+          "import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;": "导入FTC SDK的Pose2D类，用于表示2D姿态。",
+          "import org.firstinspires.ftc.teamcode.MecanumDrive;": "导入自定义的MecanumDrive类，用于控制麦克纳姆轮底盘。",
+          "@TeleOp(name = \"比赛用手动程序\", group = \"Competition\")": "使用TeleOp注解，指定这个操作模式的名称和组别。",
+          "public class SingleStickWithRR extends LinearOpMode {": "定义一个名为SingleStickWithRR的类，继承自LinearOpMode。",
+          "private MecanumDrive drive;": "声明一个MecanumDrive类型的私有成员变量drive。",
+          "private Pose2d recordedPoseBasket = null;": "声明一个Pose2d类型的私有成员变量recordedPoseBasket，用于记录篮筐位置。",
+           "private Pose2d recordedPoseChamber = null;": "声明一个Pose2d类型的私有成员变量recordedPoseChamber，用于记录储藏室位置。",
+          "private static final double CLAW_INCREMENT = 0.4, DEBOUNCE_DELAY = 200, SLIDE_DOWN_POWER = -0.6, FRAME_HOLD_POSITION = 0, FRAME_INITIAL_POSITION = 0.7, CLAW_SHU_ROTATE_POSITION = 1.0, CLAW_SHU_INITIAL_POSITION = 0.0, SERVO_SPEED_MULTIPLIER = 0.3, FRAME_SERVO_SPEED = 1, DRIVE_STOP_THRESHOLD = 0.01;": "定义一些常量，用于控制爪子、防抖延迟、滑轨、框架和舵机的参数。",
+          "private static final int SLIDE_HIGH = 2580, SLIDE_MID = 1350, SLIDE_HANG = 930, SLIDE_HOME = 0, SLIDE_HIGH_START = 2000;": "定义滑轨的各种高度位置常量。",
+          "private enum SlideState { IDLE, MOVING_TO_POSITION, MANUAL_DOWN, HANGING_PAUSE }": "定义滑轨状态的枚举类型。",
+          "private SlideState slideState = SlideState.IDLE;": "声明一个SlideState类型的变量slideState并初始化为IDLE。",
+           "private boolean isClawShuRotating = false, isFrameMoving = false, isAutoSlideDown = false, isClawOpen = false, isForwardClawOpen = false, isClawHengOpen = true, armForwardPosition = true, isFirstReset = true, isLeftBumperFirstPress = true;": "声明一些布尔类型的变量用于控制机器人的各个状态。",
+          "private double clawPosition = 0.0, clawShuCurrentPos = 0.0, clawHengCurrentPos = 0.0, frameCurrentPosition = FRAME_INITIAL_POSITION, clawShuInitPosition= 0.0, initialHeading = 0;": "声明一些double类型的变量用于存储爪子、舵机、框架的位置和初始方向。",
+          "private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;": "声明一些DcMotor类型的变量用于控制机器人的驱动电机和滑轨电机。",
+           "private Servo backgrap, forward_slide, arm_forward, claw_shu, forward_claw, claw_heng, frame;": "声明一些Servo类型的变量用于控制舵机。",
+           "private GoBildaPinpointDriver odo;": "声明一个GoBildaPinpointDriver类型的变量用于里程计。",
+           "private long lastOptionButtonPressTime = 0, lastSquareButtonPressTime = 0, lastForwardButtonPressTime = 0, lastBackButtonPressTime = 0, lastCircleButtonPressTime = 0, lastTriangleButtonPressTime = 0, lastCrossButtonPressTime = 0, lastRightStickPressTime = 0, frameMoveStartTime = 0;": "声明一些long类型变量用于存储按键的时间，实现防抖。",
+           "private long hangStartTime = 0;": "声明一个long类型的变量用于记录挂钩的开始时间。",
+           "@Override\n    public void runOpMode() {": "重写runOpMode方法，用于定义程序的主要逻辑。",
+          "initializeHardware();": "调用initializeHardware方法初始化硬件。",
+            "initializeServos();": "调用initializeServos方法初始化舵机。",
+             "initializeOdometry();": "调用initializeOdometry方法初始化里程计。",
+              "setInitialServoPositions();": "调用setInitialServoPositions方法设置初始舵机位置。",
+              "clawShuInitPosition = claw_shu.getPosition();": "获取claw_shu的初始位置。",
+             "drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));": "创建一个MecanumDrive对象，用于控制麦克纳姆轮底盘。",
+              "telemetry.addData(\"Status\", \"Initialized\");": "通过遥测输出初始化完成的信息。",
+              "telemetry.update();": "更新遥测。",
+              "waitForStart();": "等待程序开始。",
+              "while (opModeIsActive()) {": "当操作模式激活时循环运行。",
+               "odo.update();": "更新里程计数据。",
+              "Pose2D pose = odo.getPosition();": "获取机器人的当前位置。",
+              "drive.updatePoseEstimate();": "更新机器人的姿态估计。",
+                "double robotHeading = (pose.getHeading(AngleUnit.DEGREES) + 360) % 360;": "获取机器人的当前航向。",
+                "driveRobot(robotHeading);": "调用driveRobot方法驱动机器人。",
+                "controlClaw();": "调用controlClaw方法控制爪子。",
+                "controlServos();": "调用controlServos方法控制舵机。",
+                "handleSlideMovement();": "调用handleSlideMovement方法控制滑轨。",
+                 "handleFrame();": "调用handleFrame方法控制框架。",
+                  "handleClawShuControl();": "调用handleClawShuControl方法控制爪子角度。",
+                  "checkReset();": "调用checkReset方法检查是否需要重置。",
+                "updateTelemetry(robotHeading);": "调用updateTelemetry方法更新遥测。",
+           "private void handleClawShuControl() {": "定义handleClawShuControl方法，用于控制爪子的角度。",
+           "double rightStickY = gamepad1.right_stick_y, rightStickX = gamepad1.right_stick_x;": "获取手柄右摇杆的Y和X轴值。",
+           "if (Math.abs(rightStickY) > 0.1) {": "如果右摇杆的Y轴值的绝对值大于0.1执行以下代码。",
+            "clawShuCurrentPos = Math.max(0, Math.min(1, claw_shu.getPosition() - rightStickY * SERVO_SPEED_MULTIPLIER));": "根据右摇杆的Y轴值更新爪子的竖直方向的位置。",
+           "claw_shu.setPosition(clawShuCurrentPos);": "设置爪子竖直方向的舵机位置。",
+           "if (Math.abs(rightStickX) > 0.1) {": "如果右摇杆的X轴值的绝对值大于0.1执行以下代码。",
+            "clawHengCurrentPos = Math.max(0, Math.min(1, claw_heng.getPosition() + rightStickX * SERVO_SPEED_MULTIPLIER));": "根据右摇杆的X轴值更新爪子的水平方向的位置。",
+           "claw_heng.setPosition(clawHengCurrentPos);": "设置爪子水平方向的舵机位置。",
+            "if (gamepad1.right_stick_button && debounce(lastRightStickPressTime)) {": "如果点击右摇杆按钮，并且距离上次按键时间大于防抖延迟执行以下代码。",
+            "lastRightStickPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+             "resetIMU();": "调用resetIMU方法重置IMU。",
+           "private void resetIMU() {": "定义resetIMU方法，用于重置IMU。",
+             "stopDriveMotors();": "调用stopDriveMotors方法停止驱动电机。",
+             "telemetry.addData(\"IMU\", \"正在重置,请保持机器人静止...\");": "通过遥测输出正在重置IMU的信息。",
+            "telemetry.update();": "更新遥测。",
+            "if (isRobotStationary()) {": "如果机器人处于静止状态执行以下代码。",
+            "initialHeading = isFirstReset ? odo.getPosition().getHeading(AngleUnit.DEGREES) + 180 : initialHeading + 180;": "获取机器人的初始方向。",
+            "odo.resetPosAndIMU(initialHeading);": "重置里程计和IMU。",
+              "isFirstReset = false;": "重置第一次重置标志位。",
+            "telemetry.addData(\"IMU\", \"重置完成\");": "通过遥测输出重置完成的信息。",
+          "else {": "如果机器人未处于静止状态执行以下代码。",
+             "telemetry.addData(\"IMU\", \"重置失败,请确保机器人静止!\");": "通过遥测输出重置失败的信息。",
+          "telemetry.update();": "更新遥测。",
+          "sleep(500);": "线程休眠500ms。",
+            "private boolean isRobotStationary() {": "定义isRobotStationary方法，判断机器人是否处于静止状态。",
+            "return Math.abs(leftFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(leftBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD;": "通过判断四个驱动电机的功率是否小于阈值，来判断机器人是否处于静止状态。",
+           "private void stopDriveMotors() {": "定义stopDriveMotors方法，用于停止驱动电机。",
+             "leftFrontDrive.setPower(0);": "停止左前驱动电机。",
+             "rightFrontDrive.setPower(0);": "停止右前驱动电机。",
+             "leftBackDrive.setPower(0);": "停止左后驱动电机。",
+            "rightBackDrive.setPower(0);": "停止右后驱动电机。",
+            "private void driveRobot(double robotHeading) {": "定义driveRobot方法，用于控制机器人运动。",
+            "double y = gamepad1.left_stick_y, x = -gamepad1.left_stick_x, rx = gamepad1.right_trigger - gamepad1.left_trigger;": "获取手柄左摇杆的Y和X轴值，以及左右扳机的差值。",
+           "double rotX = x * Math.cos(-Math.toRadians(robotHeading)) - y * Math.sin(-Math.toRadians(robotHeading)); //无头模式": "计算旋转的X轴值。",
+           "double rotY = x * Math.sin(-Math.toRadians(robotHeading)) + y * Math.cos(-Math.toRadians(robotHeading));": "计算旋转的Y轴值。",
+           "double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);": "计算分母。",
+            "leftFrontDrive.setPower((rotY + rotX + rx) / denominator);": "设置左前驱动电机功率。",
+            "rightFrontDrive.setPower((rotY - rotX - rx) / denominator);": "设置右前驱动电机功率。",
+             "leftBackDrive.setPower((rotY - rotX + rx) / denominator);": "设置左后驱动电机功率。",
+             "rightBackDrive.setPower((rotY + rotX - rx) / denominator);": "设置右后驱动电机功率。",
+            "private void handleLeftBumper() {": "定义handleLeftBumper方法，用于处理左保险杠按键。",
+           "if (isLeftBumperFirstPress) { //记录位置": "如果是第一次按下左保险杠执行以下代码。",
+             "recordedPoseBasket = drive.pose;": "记录当前机器人位置。",
+            "telemetry.addData(\"Recorded Pose Basket\", \"X: %.2f, Y: %.2f, Heading: %.2f\", recordedPoseBasket.position.x, recordedPoseBasket.position.y, Math.toDegrees(recordedPoseBasket.heading.toDouble()));": "通过遥测输出记录的位置信息。",
+            "isLeftBumperFirstPress = false;": "将第一次按下左保险杠的标志位置为false。",
+            "else {  //自动驾驶到记录的位置": "如果不是第一次按下左保险杠执行以下代码。",
+             "Actions.runBlocking(drive.actionBuilder(drive.pose).splineToSplineHeading(recordedPoseBasket, 0).build());": "自动驾驶到记录的位置。",
+            "telemetry.addData(\"Current Pose Basket\", \"X: %.2f, Y: %.2f, Heading: %.2f\", drive.pose.position.x, drive.pose.position.y, Math.toDegrees(drive.pose.heading.toDouble()));": "通过遥测输出当前的位置信息。",
+           "telemetry.update();": "更新遥测。",
+            "if (claw_shu.getPosition() == clawShuInitPosition) {": "如果爪子的竖直方向处于初始位置执行以下代码。",
+              "claw_shu.setPosition(CLAW_SHU_ROTATE_POSITION);": "将爪子竖直方向的舵机旋转到指定位置。",
+               "isClawShuRotating = true;": "将爪子竖直方向正在旋转的标志位置为true。",
+            "else {": "如果爪子的竖直方向不处于初始位置执行以下代码。",
+             "setSlidePosition(SLIDE_HIGH);": "设置滑轨到高位。",
+             "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+           "private void handleFrame() {": "定义handleFrame方法，用于控制框架的动作。",
+            "if (isFrameMoving && frameCurrentPosition == FRAME_HOLD_POSITION && (System.currentTimeMillis() - frameMoveStartTime >= 490)) {": "如果框架正在移动，并且到达了指定的位置，并且移动的时间大于指定时间执行以下代码。",
+            "isFrameMoving = false;": "将框架正在移动的标志位置为false。",
+           "if (!isFrameMoving) {": "如果框架没有正在移动执行以下代码。",
+           "frameCurrentPosition = Math.max(FRAME_INITIAL_POSITION, frameCurrentPosition - FRAME_SERVO_SPEED);": "更新框架的当前位置。",
+            "frame.setPosition(frameCurrentPosition);": "设置框架舵机的位置。",
+            "private void checkReset() {": "定义checkReset方法，用于检测重置按键。",
+            "if (gamepad1.options && debounce(lastOptionButtonPressTime)) {": "如果按下options按键，并且距离上次按下时间大于防抖延迟执行以下代码。",
+              "lastOptionButtonPressTime = System.currentTimeMillis();": "记录本次按键时间。",
+              "resetAll();": "调用resetAll方法，重置所有状态。",
+            "private void resetAll() {": "定义resetAll方法，用于重置所有状态。",
+            "setInitialServoPositions();": "调用setInitialServoPositions方法设置初始舵机位置。",
+           "isClawOpen = false;": "设置后爪为关闭状态。",
+            "clawPosition = 0.0;": "设置后爪位置为初始位置。",
+             "backgrap.setPosition(clawPosition);": "设置后爪舵机位置。",
+            "isForwardClawOpen = false;": "设置前爪为关闭状态。",
+            "forward_claw.setPosition(1);": "设置前爪舵机位置。",
+           "isClawHengOpen = true;": "设置前爪横向自由度为打开状态。",
+             "claw_heng.setPosition(0.55);": "设置前爪横向自由度的舵机位置。",
+              "armForwardPosition = true;": "设置前臂为初始位置。",
+             "arm_forward.setPosition(0.8);": "设置前臂舵机位置。",
+              "frameCurrentPosition = FRAME_INITIAL_POSITION;": "设置框架位置为初始位置。",
+            "frame.setPosition(FRAME_INITIAL_POSITION);": "设置框架舵机位置。",
+            "slideState = SlideState.IDLE;": "设置滑轨状态为初始状态。",
+             "resetIMU();": "调用resetIMU方法重置IMU。",
+            "clawShuCurrentPos = CLAW_SHU_INITIAL_POSITION;": "设置爪子的竖直方向位置为初始位置。",
+             "claw_shu.setPosition(clawShuCurrentPos);": "设置爪子竖直方向舵机位置。",
+             "clawHengCurrentPos = 0.55;": "设置爪子的横向位置为初始位置。",
+             "claw_heng.setPosition(clawHengCurrentPos);": "设置爪子横向舵机位置。",
+             "isLeftBumperFirstPress = true;": "设置第一次按下左保险杠的标志位为true。",
+            "private void initializeHardware() {": "定义initializeHardware方法，用于初始化硬件。",
+             "leftFrontDrive = hardwareMap.get(DcMotor.class, \"RightBehindMotor\");": "获取左前驱动电机。",
+              "rightFrontDrive = hardwareMap.get(DcMotor.class, \"LeftBehindMotor\");": "获取右前驱动电机。",
+              "leftBackDrive = hardwareMap.get(DcMotor.class, \"RightFrontMotor\");": "获取左后驱动电机。",
+              "rightBackDrive = hardwareMap.get(DcMotor.class, \"LeftFrontMotor\");": "获取右后驱动电机。",
+              "Left_Hanging_Motor = hardwareMap.get(DcMotor.class, \"LeftHangingMotor\");": "获取左滑轨电机。",
+             "Right_Hanging_Motor = hardwareMap.get(DcMotor.class, \"RightHangingMotor\");": "获取右滑轨电机。",
+           "leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);": "设置左前驱动电机方向为反向。",
+           "leftBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);": "设置左后驱动电机方向为反向。",
+          "rightFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);": "设置右前驱动电机方向为正向。",
+          "rightBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);": "设置右后驱动电机方向为正向。",
+           "Left_Hanging_Motor.setDirection(DcMotorSimple.Direction.REVERSE);": "设置左滑轨电机方向为反向。",
+            "Right_Hanging_Motor.setDirection(DcMotorSimple.Direction.FORWARD);": "设置右滑轨电机方向为正向。",
+            "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机在零功率时制动。",
+            "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机在零功率时制动。",
+           "Left_Hanging_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);": "重置左滑轨电机的编码器。",
+            "Right_Hanging_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);": "重置右滑轨电机的编码器。",
+            "Left_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);": "设置左滑轨电机为使用编码器模式。",
+            "Right_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);": "设置右滑轨电机为使用编码器模式。",
+            "private void initializeServos() {": "定义initializeServos方法，用于初始化舵机。",
+              "backgrap = hardwareMap.get(Servo.class, \"backgrap\");": "获取后爪舵机。",
+              "forward_slide = hardwareMap.get(Servo.class, \"forward_slide\");": "获取前滑轨舵机。",
+             "arm_forward = hardwareMap.get(Servo.class, \"arm_forward\");": "获取前臂舵机。",
+              "claw_shu = hardwareMap.get(Servo.class, \"claw_shu\");": "获取爪子竖直方向舵机。",
+              "forward_claw = hardwareMap.get(Servo.class, \"forward_claw\");": "获取前爪舵机。",
+             "claw_heng = hardwareMap.get(Servo.class, \"claw_heng\");": "获取爪子水平方向舵机。",
+              "frame = hardwareMap.get(Servo.class, \"frame\");": "获取框架舵机。",
+              "frame.setPosition(FRAME_INITIAL_POSITION);": "设置框架舵机位置为初始位置。",
+             "backgrap.setPosition(clawPosition);": "设置后爪舵机位置为初始位置。",
+              "claw_heng.setPosition(0.55);": "设置爪子水平方向舵机位置。",
+              "forward_claw.setPosition(1);": "设置前爪舵机位置。",
+            "private void initializeOdometry() {": "定义initializeOdometry方法，用于初始化里程计。",
+              "odo = hardwareMap.get(GoBildaPinpointDriver.class, \"goBILDAPinpoint\");": "获取里程计对象。",
+             "odo.setOffsets(5.5, 121.0);": "设置里程计的偏移量。",
+              "odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);": "设置里程计编码器的分辨率。",
+             "odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);": "设置里程计编码器的方向。",
+             "resetIMU();": "调用resetIMU方法重置IMU。",
+             "sleep(200);": "线程休眠200ms。",
+            "private void setInitialServoPositions() {": "定义setInitialServoPositions方法，用于设置初始舵机位置。",
+             "forward_slide.setPosition(1);": "设置前滑轨舵机位置为初始位置。",
+           "arm_forward.setPosition(0.8);": "设置前臂舵机位置为初始位置。",
+           "claw_shu.setPosition(CLAW_SHU_INITIAL_POSITION);": "设置爪子竖直方向舵机位置为初始位置。",
+            "private void controlClaw() {": "定义controlClaw方法，用于控制后爪。",
+           "if (gamepad1.square && debounce(lastSquareButtonPressTime)) {": "如果按下方形按键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+           "lastSquareButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+            "clawPosition = isClawOpen ? Math.max(0.0, clawPosition - CLAW_INCREMENT) : Math.min(1.0, clawPosition + CLAW_INCREMENT);": "根据后爪的状态更新后爪位置。",
+           "backgrap.setPosition(clawPosition);": "设置后爪舵机位置。",
+            "isClawOpen = !isClawOpen;": "反转后爪状态。",
+            "private void controlServos() {": "定义controlServos方法，用于控制舵机。",
+             "if (gamepad1.dpad_up && debounce(lastForwardButtonPressTime)) {": "如果按下上方向键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+              "lastForwardButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+              "forward_slide.setPosition(0.4);": "设置前滑轨舵机位置。",
+              "arm_forward.setPosition(0.4);": "设置前臂舵机位置。",
+              "claw_shu.setPosition(CLAW_SHU_ROTATE_POSITION);": "设置爪子竖直方向舵机位置。",
+              "if (gamepad1.dpad_down && debounce(lastBackButtonPressTime)) {": "如果按下下方向键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+              "lastBackButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+              "forward_claw.setPosition(0);": "设置前爪舵机位置。",
+              "sleep(250);": "线程休眠250ms。",
+            "forward_slide.setPosition(1);": "设置前滑轨舵机位置为初始位置。",
+             "arm_forward.setPosition(0.8);": "设置前臂舵机位置为初始位置。",
+           "claw_shu.setPosition(CLAW_SHU_INITIAL_POSITION);": "设置爪子竖直方向舵机位置为初始位置。",
+             "claw_heng.setPosition(0.55);": "设置爪子横向舵机位置。",
+           "if (gamepad1.circle && debounce(lastCircleButtonPressTime)) {": "如果按下圆形按键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+              "lastCircleButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+              "forward_claw.setPosition(isForwardClawOpen ? 0.5 : 1);": "根据前爪的状态设置前爪舵机位置。",
+            "isForwardClawOpen = !isForwardClawOpen;": "反转前爪状态。",
+             "if (gamepad1.cross && debounce(lastCrossButtonPressTime)) {": "如果按下交叉按键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+            "lastCrossButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+            "if(armForwardPosition) {": "如果前臂为初始状态执行以下代码。",
+             "arm_forward.setPosition(0.15);": "设置前臂舵机位置。",
+            "armForwardPosition = false;": "设置前臂状态为非初始状态。",
+            "else {": "如果前臂不为初始状态执行以下代码。",
+           "arm_forward.setPosition(0.4);": "设置前臂舵机位置。",
+            "armForwardPosition = true;": "设置前臂状态为初始状态。",
+            "if (gamepad1.triangle && debounce(lastTriangleButtonPressTime)) {": "如果按下三角按键，并且距离上次按键时间大于防抖延迟执行以下代码。",
+              "lastTriangleButtonPressTime = System.currentTimeMillis();": "记录当前按键时间。",
+               "claw_heng.setPosition(isClawHengOpen ? 0.07 : 0.55);": "根据爪子水平方向舵机的状态设置舵机位置。",
+            "isClawHengOpen = !isClawHengOpen;": "反转爪子水平方向舵机的状态。",
+             "private void setSlidePosition(int position) {": "定义setSlidePosition方法，用于设置滑轨位置。",
+             "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置左滑轨电机为零功率时漂移。",
+              "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置右滑轨电机为零功率时漂移。",
+              "Left_Hanging_Motor.setTargetPosition(position);": "设置左滑轨电机的目标位置。",
+             "Right_Hanging_Motor.setTargetPosition(position);": "设置右滑轨电机的目标位置。",
+             "if (Left_Hanging_Motor.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {": "如果左滑轨电机不为RUN_TO_POSITION模式执行以下代码。",
+            "Left_Hanging_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);": "设置左滑轨电机为RUN_TO_POSITION模式。",
+              "Right_Hanging_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);": "设置右滑轨电机为RUN_TO_POSITION模式。",
+              "Left_Hanging_Motor.setPower(1);": "设置左滑轨电机功率为1。",
+            "Right_Hanging_Motor.setPower(1);": "设置右滑轨电机功率为1。",
+             "private boolean isSlideBusy() {": "定义isSlideBusy方法，用于判断滑轨是否到达目标位置。",
+             "return !Left_Hanging_Motor.isBusy() && !Right_Hanging_Motor.isBusy();": "如果左滑轨电机和右滑轨电机都没有正在运行则返回true。",
+             "private void handleSlideMovement() {": "定义handleSlideMovement方法，用于控制滑轨运动。",
+             "if (slideState == SlideState.IDLE) {": "如果滑轨状态为IDLE执行以下代码。",
+            "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机为零功率时制动。",
+            "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机为零功率时制动。",
+             "if (gamepad1.y) {": "如果按下Y键执行以下代码。",
+            "telemetry.addData(\"滑轨状态\", \"已复位到零点\");": "通过遥测输出滑轨已经复位到零点。",
+              "else if (slideState == SlideState.IDLE) {": "如果滑轨状态为IDLE执行以下代码。",
+                "if (gamepad1.left_bumper) {": "如果按下左保险杠执行以下代码。",
+                "handleLeftBumper();": "调用handleLeftBumper方法。",
+                "isAutoSlideDown = true;": "设置滑轨需要自动下降的标志位为true。",
+                 "else if (gamepad1.dpad_left) {": "如果按下左方向键执行以下代码。",
+                  "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置左滑轨电机为零功率时漂移。",
+                   "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置右滑轨电机为零功率时漂移。",
+                  "setSlidePosition(SLIDE_MID);": "设置滑轨到中位。",
+                   "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+                   "else if (gamepad1.dpad_right) {": "如果按下右方向键执行以下代码。",
+                    "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置左滑轨电机为零功率时漂移。",
+                     "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);": "设置右滑轨电机为零功率时漂移。",
+                    "setSlidePosition(SLIDE_HANG);": "设置滑轨到挂钩位置。",
+                     "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+                    "if (gamepad1.right_bumper) {": "如果按下右保险杠执行以下代码。",
+                     "Left_Hanging_Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);": "设置左滑轨电机为没有编码器的模式。",
+                     "Right_Hanging_Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);": "设置右滑轨电机为没有编码器的模式。",
+                     "Left_Hanging_Motor.setPower(SLIDE_DOWN_POWER);": "设置左滑轨电机功率为下降功率。",
+                      "Right_Hanging_Motor.setPower(SLIDE_DOWN_POWER);": "设置右滑轨电机功率为下降功率。",
+                     "slideState = SlideState.MANUAL_DOWN;": "设置滑轨状态为手动下降。",
+                "else if (slideState == SlideState.MOVING_TO_POSITION && isSlideBusy() ) {": "如果滑轨状态为正在移动，并且滑轨到达指定位置执行以下代码。",
+                    "if(Left_Hanging_Motor.getTargetPosition() == SLIDE_HANG){": "如果左滑轨电机的目标位置是挂钩位置执行以下代码。",
+                       "hangStartTime = System.currentTimeMillis();": "记录当前时间为挂钩开始时间。",
+                        "backgrap.setPosition(0);": "设置后爪打开。",
+                        "slideState = SlideState.HANGING_PAUSE;": "设置滑轨状态为挂钩暂停。",
+                   "else if (Left_Hanging_Motor.getTargetPosition() == 0){": "如果左滑轨电机的目标位置是0执行以下代码。",
+                        "slideState = SlideState.IDLE;": "设置滑轨状态为IDLE。",
+                       "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机在零功率时制动。",
+                        "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机在零功率时制动。",
+                        "Left_Hanging_Motor.setPower(0);": "设置左滑轨电机功率为0。",
+                        "Right_Hanging_Motor.setPower(0);": "设置右滑轨电机功率为0。",
+                    "else if (Left_Hanging_Motor.getTargetPosition() == SLIDE_MID){": "如果左滑轨电机的目标位置是中位执行以下代码。",
+                        "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机为零功率时制动。",
+                        "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机为零功率时制动。",
+                        "slideState = SlideState.IDLE;": "设置滑轨状态为IDLE。",
+                         "Left_Hanging_Motor.setPower(0);": "设置左滑轨电机功率为0。",
+                        "Right_Hanging_Motor.setPower(0);": "设置右滑轨电机功率为0。",
+                "else if (slideState == SlideState.HANGING_PAUSE) {": "如果滑轨状态为挂钩暂停执行以下代码。",
+                   "if (System.currentTimeMillis() - hangStartTime > 1000) {": "如果距离挂钩开始时间超过1000ms执行以下代码。",
+                        "setSlidePosition(0);": "设置滑轨为初始位置。",
+                        "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+                "else if (slideState == SlideState.MANUAL_DOWN) {": "如果滑轨状态为手动下降执行以下代码。",
+                    "if (!gamepad1.right_bumper) {": "如果没有按下右保险杠执行以下代码。",
+                       "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机为零功率时制动。",
+                       "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机为零功率时制动。",
+                      "Left_Hanging_Motor.setPower(0);": "设置左滑轨电机功率为0。",
+                      "Right_Hanging_Motor.setPower(0);": "设置右滑轨电机功率为0。",
+                      "slideState = SlideState.IDLE;": "设置滑轨状态为IDLE。",
+                     "else if (isSlideBusy()) {": "如果滑轨到达了目标位置执行以下代码。",
+                       "Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置左滑轨电机为零功率时制动。",
+                       "Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);": "设置右滑轨电机为零功率时制动。",
+                       "if (slideState == SlideState.MOVING_TO_POSITION) {": "如果滑轨状态为正在移动执行以下代码。",
+                         "slideState = SlideState.IDLE;": "设置滑轨状态为IDLE。",
+                       "Left_Hanging_Motor.setPower(0);": "设置左滑轨电机功率为0。",
+                        "Right_Hanging_Motor.setPower(0);": "设置右滑轨电机功率为0。",
+                "if (isClawShuRotating) {": "如果爪子竖直方向正在旋转执行以下代码。",
+                     "if (claw_shu.getPosition() == CLAW_SHU_ROTATE_POSITION) {": "如果爪子竖直方向到达目标位置执行以下代码。",
+                        "sleep(300);": "线程休眠300ms。",
+                        "setSlidePosition(SLIDE_HIGH);": "设置滑轨到高位。",
+                        "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+                         "isClawShuRotating = false;": "设置爪子竖直方向正在旋转的标志位为false。",
+                    "if (slideState == SlideState.MOVING_TO_POSITION && Left_Hanging_Motor.getCurrentPosition() >= SLIDE_HIGH_START && !isFrameMoving) {": "如果滑轨状态为正在移动，并且滑轨位置大于指定位置，并且框架没有正在移动执行以下代码。",
+                        "frameMoveStartTime = System.currentTimeMillis();": "记录框架移动的开始时间。",
+                         "frameCurrentPosition = FRAME_HOLD_POSITION;": "设置框架为指定位置。",
+                        "frame.setPosition(frameCurrentPosition);": "设置框架舵机位置。",
+                         "isFrameMoving = true;": "设置框架正在移动的标志位为true。",
+                     "if (isAutoSlideDown && slideState == SlideState.IDLE &&!isFrameMoving) {": "如果滑轨需要自动下降，并且滑轨状态为IDLE，并且框架没有在移动执行以下代码。",
+                        "setSlidePosition(SLIDE_HOME);": "设置滑轨为初始位置。",
+                        "slideState = SlideState.MOVING_TO_POSITION;": "设置滑轨状态为正在移动。",
+                         "isAutoSlideDown = false;": "设置滑轨自动下降的标志位为false。",
+                     "private boolean debounce(long lastPressTime) {": "定义debounce方法，用于实现按钮防抖。",
+                      "return (System.currentTimeMillis() - lastPressTime) > DEBOUNCE_DELAY;": "如果当前时间减去上一次按钮按下的时间大于防抖延迟则返回true。",
+                     "private void updateTelemetry(double robotHeading) {": "定义updateTelemetry方法，用于更新遥测信息。",
+                     "telemetry.addData(\"状态\", \"运行中\");": "通过遥测输出程序运行中的信息。",
+                      "telemetry.addData(\"GoBildaIMU\", \"%.2f\", robotHeading);": "通过遥测输出机器人的当前方向。",
+                     "telemetry.addData(\"滑轨\", \"左:%d, 右:%d\", Left_Hanging_Motor.getCurrentPosition(), Right_Hanging_Motor.getCurrentPosition());": "通过遥测输出滑轨的位置。",
+                    "telemetry.addData(\"前段\", \"滑轨:%.2f, 小臂:%.2f, 竖:%.2f, 横:%.2f, 前爪:%.2f\", forward_slide.getPosition(), arm_forward.getPosition(), claw_shu.getPosition(), claw_heng.getPosition(), forward_claw.getPosition());": "通过遥测输出前段各个舵机的位置。",
+                    "telemetry.addData(\"后爪\", \"状态: %s, 位置:%.2f\", isClawOpen ? \"打开\" : \"关闭\", clawPosition);": "通过遥测输出后爪的状态和位置。",
+                     "telemetry.addData(\"框状态\", \"位置: %.2f\", frame.getPosition());": "通过遥测输出框架的位置。",
+                    "telemetry.addData(\"框舵机目标位置:\", frameCurrentPosition);": "通过遥测输出框架舵机的目标位置。",
+                    "telemetry.addData(\"控制\", \"左肩=高位, D-pad左=中位, D-pad右=挂钩, 长按右肩=下降, Y=复位,右摇杆按钮=IMU重置\");": "通过遥测输出操作提示。",
+                     "telemetry.addData(\"提示\", \"按下圆形按键控制前爪, 右摇杆控制前爪自由度,  三角键：前爪横向自由度， 交叉键：小臂\");": "通过遥测输出操作提示。",
+                    "telemetry.update();": "更新遥测。",
+        };
+        let codeLines = code.split('\\n').map(line => line.trim());
 
+          let highlightedCode = codeLines.map((line, index) => {
+            return `<span class="code-line" data-index="${index}">${line}</span>`;
+        }).join('');
+        codeContainer.innerHTML = highlightedCode;
+        hljs.highlightAll();
+        let codeSpans = codeContainer.querySelectorAll('.code-line');
+          learnButton.addEventListener('click', function() {
+            codeExplanationContainer.classList.add('active');
+             learnButton.style.display = 'none';
+              });
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.nav-button').forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('data-target');
-                const targetElement = document.getElementById(targetId);
+            codeSpans.forEach(codeSpan => {
+            codeSpan.addEventListener('click', function() {
+            codeSpans.forEach(span => span.classList.remove('selected'));
+            this.classList.add('selected');
 
-                document.querySelectorAll('.code-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-
-                if(targetElement){
-                    targetElement.classList.add('active');
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
+           const index = this.getAttribute('data-index');
+                const line = codeLines[index];
+                 let explanation = explanations[line];
+                    if(explanation){
+                       explanationContainer.innerHTML = `<h2>代码解释</h2><p>${explanation}</p>`;
+                     }else{
+                        explanationContainer.innerHTML = `<h2>代码解释</h2><p>这一行代码没有详细的解释</p>`;
+                   }
             });
         });
+
+
     });
 </script>
 </body>
