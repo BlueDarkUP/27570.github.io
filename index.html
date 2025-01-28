@@ -23,7 +23,7 @@
         }
 
         .nav-container {
-             display: flex;
+            display: flex;
             justify-content: center;
             flex-wrap: wrap;
             margin: 40px auto 30px;
@@ -75,17 +75,17 @@
         }
 
 
-       .code-section {
-           display: none;
-           padding: 20px;
-           border-radius: 12px;
-           margin: 0 auto 30px;
-           background-color: #fff;
-           box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-           border: 1px solid #eee;
+        .code-section {
+            display: none;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 0 auto 30px;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
             width: 100%;
-           max-width: 1000px;
-           box-sizing: border-box;
+            max-width: 1000px;
+            box-sizing: border-box;
         }
 
         .code-section.active {
@@ -105,56 +105,56 @@
         }
         .code-section pre{
             background-color: #f0f0f0;
-             padding: 15px;
+            padding: 15px;
             border-radius: 8px;
             overflow-x: auto;
         }
-           .code-section h2 {
-                margin-top: 0;
-                color: #333;
-               border-bottom: 2px solid #eee;
-                padding-bottom: 15px;
-               font-weight: 600;
-            }
+        .code-section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="nav-container">
-            <a href="#package_import" class="nav-button" data-target="package_import">包导入</a>
-            <a href="#class_declaration" class="nav-button" data-target="class_declaration">类声明</a>
-            <a href="#constants" class="nav-button" data-target="constants">常量定义</a>
-            <a href="#enum_state" class="nav-button" data-target="enum_state">枚举状态</a>
-            <a href="#variables" class="nav-button" data-target="variables">变量定义</a>
-           <a href="#hardware_declaration" class="nav-button" data-target="hardware_declaration">硬件声明</a>
-            <a href="#time_variables" class="nav-button" data-target="time_variables">时间变量</a>
-             <a href="#runOpMode" class="nav-button" data-target="runOpMode">runOpMode</a>
-              <a href="#handleClawShuControl" class="nav-button" data-target="handleClawShuControl">爪子角度控制</a>
-               <a href="#resetIMU" class="nav-button" data-target="resetIMU">重置IMU</a>
-               <a href="#isRobotStationary" class="nav-button" data-target="isRobotStationary">机器人是否停止</a>
-               <a href="#stopDriveMotors" class="nav-button" data-target="stopDriveMotors">停止电机</a>
-                <a href="#driveRobot" class="nav-button" data-target="driveRobot">驱动机器人</a>
-             <a href="#handleLeftBumper" class="nav-button" data-target="handleLeftBumper">左保险杠</a>
-             <a href="#handleFrame" class="nav-button" data-target="handleFrame">控制框</a>
-            <a href="#checkReset" class="nav-button" data-target="checkReset">检查重置</a>
-             <a href="#resetAll" class="nav-button" data-target="resetAll">重置所有</a>
-             <a href="#initializeHardware" class="nav-button" data-target="initializeHardware">初始化硬件</a>
-             <a href="#initializeServos" class="nav-button" data-target="initializeServos">初始化舵机</a>
-             <a href="#initializeOdometry" class="nav-button" data-target="initializeOdometry">初始化里程计</a>
-               <a href="#setInitialServoPositions" class="nav-button" data-target="setInitialServoPositions">设置初始舵机位置</a>
-             <a href="#controlClaw" class="nav-button" data-target="controlClaw">控制爪子</a>
-               <a href="#controlServos" class="nav-button" data-target="controlServos">控制舵机</a>
-             <a href="#setSlidePosition" class="nav-button" data-target="setSlidePosition">设置滑轨位置</a>
-            <a href="#isSlideBusy" class="nav-button" data-target="isSlideBusy">滑轨是否忙碌</a>
-            <a href="#handleSlideMovement" class="nav-button" data-target="handleSlideMovement">滑轨运动控制</a>
-             <a href="#debounce" class="nav-button" data-target="debounce">按钮防抖</a>
-             <a href="#updateTelemetry" class="nav-button" data-target="updateTelemetry">更新遥测</a>
+<div class="container">
+    <div class="nav-container">
+        <a href="#package_import" class="nav-button" data-target="package_import">包导入</a>
+        <a href="#class_declaration" class="nav-button" data-target="class_declaration">类声明</a>
+        <a href="#constants" class="nav-button" data-target="constants">常量定义</a>
+        <a href="#enum_state" class="nav-button" data-target="enum_state">枚举状态</a>
+        <a href="#variables" class="nav-button" data-target="variables">变量定义</a>
+        <a href="#hardware_declaration" class="nav-button" data-target="hardware_declaration">硬件声明</a>
+        <a href="#time_variables" class="nav-button" data-target="time_variables">时间变量</a>
+        <a href="#runOpMode" class="nav-button" data-target="runOpMode">runOpMode</a>
+        <a href="#handleClawShuControl" class="nav-button" data-target="handleClawShuControl">爪子角度控制</a>
+        <a href="#resetIMU" class="nav-button" data-target="resetIMU">重置IMU</a>
+        <a href="#isRobotStationary" class="nav-button" data-target="isRobotStationary">机器人是否停止</a>
+        <a href="#stopDriveMotors" class="nav-button" data-target="stopDriveMotors">停止电机</a>
+        <a href="#driveRobot" class="nav-button" data-target="driveRobot">驱动机器人</a>
+        <a href="#handleLeftBumper" class="nav-button" data-target="handleLeftBumper">左保险杠</a>
+        <a href="#handleFrame" class="nav-button" data-target="handleFrame">控制框</a>
+        <a href="#checkReset" class="nav-button" data-target="checkReset">检查重置</a>
+        <a href="#resetAll" class="nav-button" data-target="resetAll">重置所有</a>
+        <a href="#initializeHardware" class="nav-button" data-target="initializeHardware">初始化硬件</a>
+        <a href="#initializeServos" class="nav-button" data-target="initializeServos">初始化舵机</a>
+        <a href="#initializeOdometry" class="nav-button" data-target="initializeOdometry">初始化里程计</a>
+        <a href="#setInitialServoPositions" class="nav-button" data-target="setInitialServoPositions">设置初始舵机位置</a>
+        <a href="#controlClaw" class="nav-button" data-target="controlClaw">控制爪子</a>
+        <a href="#controlServos" class="nav-button" data-target="controlServos">控制舵机</a>
+        <a href="#setSlidePosition" class="nav-button" data-target="setSlidePosition">设置滑轨位置</a>
+        <a href="#isSlideBusy" class="nav-button" data-target="isSlideBusy">滑轨是否忙碌</a>
+        <a href="#handleSlideMovement" class="nav-button" data-target="handleSlideMovement">滑轨运动控制</a>
+        <a href="#debounce" class="nav-button" data-target="debounce">按钮防抖</a>
+        <a href="#updateTelemetry" class="nav-button" data-target="updateTelemetry">更新遥测</a>
 
-        </div>
+    </div>
 
-       <div id="package_import" class="code-section">
-         <h2>包导入</h2>
-         <pre><code>package org.firstinspires.ftc.teamcode.TeleOp;
+    <div id="package_import" class="code-section">
+        <h2>包导入</h2>
+        <pre><code>package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -165,59 +165,59 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.MecanumDrive;</code></pre>
-       </div>
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+</code></pre>
+    </div>
 
-        <div id="class_declaration" class="code-section">
-           <h2>类声明</h2>
-           <pre><code>@TeleOp(name = "比赛用手动程序", group = "Competition")
+    <div id="class_declaration" class="code-section">
+        <h2>类声明</h2>
+        <pre><code>@TeleOp(name = "比赛用手动程序", group = "Competition")
 public class SingleStickWithRR extends LinearOpMode {
-  </code></pre>
-       </div>
+</code></pre>
+    </div>
 
-        <div id="constants" class="code-section">
-            <h2>常量定义</h2>
-            <pre><code>
+    <div id="constants" class="code-section">
+        <h2>常量定义</h2>
+        <pre><code>
     private static final double CLAW_INCREMENT = 0.4, DEBOUNCE_DELAY = 200, SLIDE_DOWN_POWER = -0.6, FRAME_HOLD_POSITION = 0, FRAME_INITIAL_POSITION = 0.7, CLAW_SHU_ROTATE_POSITION = 1.0, CLAW_SHU_INITIAL_POSITION = 0.0, SERVO_SPEED_MULTIPLIER = 0.3, FRAME_SERVO_SPEED = 1, DRIVE_STOP_THRESHOLD = 0.01;
     private static final int SLIDE_HIGH = 2580, SLIDE_MID = 1350, SLIDE_HANG = 930, SLIDE_HOME = 0, SLIDE_HIGH_START = 2000;
-            </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="enum_state" class="code-section">
-            <h2>枚举状态</h2>
-            <pre><code>    private enum SlideState { IDLE, MOVING_TO_POSITION, MANUAL_DOWN, HANGING_PAUSE }
+    <div id="enum_state" class="code-section">
+        <h2>枚举状态</h2>
+        <pre><code>    private enum SlideState { IDLE, MOVING_TO_POSITION, MANUAL_DOWN, HANGING_PAUSE }
     private SlideState slideState = SlideState.IDLE;
-            </code></pre>
-        </div>
-         <div id="variables" class="code-section">
-           <h2>变量定义</h2>
-           <pre><code>
+</code></pre>
+    </div>
+    <div id="variables" class="code-section">
+        <h2>变量定义</h2>
+        <pre><code>
     private boolean isClawShuRotating = false, isFrameMoving = false, isAutoSlideDown = false, isClawOpen = false, isForwardClawOpen = false, isClawHengOpen = true, armForwardPosition = true, isFirstReset = true, isLeftBumperFirstPress = true;
     private double clawPosition = 0.0, clawShuCurrentPos = 0.0, clawHengCurrentPos = 0.0, frameCurrentPosition = FRAME_INITIAL_POSITION, clawShuInitPosition = 0.0, initialHeading = 0;
 
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;
     private Servo backgrap, forward_slide, arm_forward, claw_shu, forward_claw, claw_heng, frame;
     private GoBildaPinpointDriver odo;
-
-           </code></pre>
-        </div>
-         <div id="hardware_declaration" class="code-section">
-           <h2>硬件声明</h2>
-           <pre><code>    private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;
+</code></pre>
+    </div>
+    <div id="hardware_declaration" class="code-section">
+        <h2>硬件声明</h2>
+        <pre><code>    private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Left_Hanging_Motor, Right_Hanging_Motor;
     private Servo backgrap, forward_slide, arm_forward, claw_shu, forward_claw, claw_heng, frame;
     private GoBildaPinpointDriver odo;
-           </code></pre>
-        </div>
-         <div id="time_variables" class="code-section">
-           <h2>时间变量</h2>
-           <pre><code>   private long lastOptionButtonPressTime = 0, lastSquareButtonPressTime = 0, lastForwardButtonPressTime = 0, lastBackButtonPressTime = 0, lastCircleButtonPressTime = 0, lastTriangleButtonPressTime = 0, lastCrossButtonPressTime = 0, lastRightStickPressTime = 0, frameMoveStartTime = 0;
+</code></pre>
+    </div>
+    <div id="time_variables" class="code-section">
+        <h2>时间变量</h2>
+        <pre><code>   private long lastOptionButtonPressTime = 0, lastSquareButtonPressTime = 0, lastForwardButtonPressTime = 0, lastBackButtonPressTime = 0, lastCircleButtonPressTime = 0, lastTriangleButtonPressTime = 0, lastCrossButtonPressTime = 0, lastRightStickPressTime = 0, frameMoveStartTime = 0;
     private long hangStartTime = 0;
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="runOpMode" class="code-section">
-          <h2>runOpMode</h2>
-          <pre><code>  @Override
+    <div id="runOpMode" class="code-section">
+        <h2>runOpMode</h2>
+        <pre><code>  @Override
     public void runOpMode() {
         initializeHardware();
         initializeServos();
@@ -247,11 +247,11 @@ public class SingleStickWithRR extends LinearOpMode {
             updateTelemetry(robotHeading);
         }
     }
-          </code></pre>
-        </div>
-         <div id="handleClawShuControl" class="code-section">
-           <h2>爪子角度控制</h2>
-           <pre><code>
+</code></pre>
+    </div>
+    <div id="handleClawShuControl" class="code-section">
+        <h2>爪子角度控制</h2>
+        <pre><code>
     private void handleClawShuControl() {
         double rightStickY = gamepad1.right_stick_y, rightStickX = gamepad1.right_stick_x;
 
@@ -270,12 +270,12 @@ public class SingleStickWithRR extends LinearOpMode {
             resetIMU();
         }
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-          <div id="resetIMU" class="code-section">
-              <h2>重置IMU</h2>
-            <pre><code>
+    <div id="resetIMU" class="code-section">
+        <h2>重置IMU</h2>
+        <pre><code>
     private void resetIMU() {
         stopDriveMotors();
         telemetry.addData("IMU", "正在重置,请保持机器人静止...");
@@ -292,33 +292,33 @@ public class SingleStickWithRR extends LinearOpMode {
         telemetry.update();
         sleep(500);
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="isRobotStationary" class="code-section">
-          <h2>机器人是否停止</h2>
-          <pre><code>
+    <div id="isRobotStationary" class="code-section">
+        <h2>机器人是否停止</h2>
+        <pre><code>
     private boolean isRobotStationary() {
         return Math.abs(leftFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightFrontDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(leftBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD && Math.abs(rightBackDrive.getPower()) <= DRIVE_STOP_THRESHOLD;
     }
-          </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="stopDriveMotors" class="code-section">
-           <h2>停止电机</h2>
-           <pre><code>
+    <div id="stopDriveMotors" class="code-section">
+        <h2>停止电机</h2>
+        <pre><code>
     private void stopDriveMotors() {
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="driveRobot" class="code-section">
-          <h2>驱动机器人</h2>
-          <pre><code>
+    <div id="driveRobot" class="code-section">
+        <h2>驱动机器人</h2>
+        <pre><code>
   private void driveRobot(double robotHeading) {
         double y = gamepad1.left_stick_y, x = -gamepad1.left_stick_x, rx = gamepad1.right_trigger - gamepad1.left_trigger;
         double rotX = x * Math.cos(-Math.toRadians(robotHeading)) - y * Math.sin(-Math.toRadians(robotHeading)); //无头模式
@@ -330,12 +330,12 @@ public class SingleStickWithRR extends LinearOpMode {
         leftBackDrive.setPower((rotY - rotX + rx) / denominator);
         rightBackDrive.setPower((rotY + rotX - rx) / denominator);
     }
-          </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-          <div id="handleLeftBumper" class="code-section">
-           <h2>左保险杠</h2>
-           <pre><code>
+    <div id="handleLeftBumper" class="code-section">
+        <h2>左保险杠</h2>
+        <pre><code>
  private void handleLeftBumper() {
         if (isLeftBumperFirstPress) { //记录位置
             recordedPoseBasket = drive.pose;
@@ -357,12 +357,12 @@ public class SingleStickWithRR extends LinearOpMode {
             slideState = SlideState.MOVING_TO_POSITION;
         }
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="handleFrame" class="code-section">
-         <h2>控制框</h2>
-         <pre><code>
+    <div id="handleFrame" class="code-section">
+        <h2>控制框</h2>
+        <pre><code>
  private void handleFrame() {
         if (isFrameMoving && frameCurrentPosition == FRAME_HOLD_POSITION && (System.currentTimeMillis() - frameMoveStartTime >= 490)) {
             isFrameMoving = false;
@@ -372,24 +372,24 @@ public class SingleStickWithRR extends LinearOpMode {
             frame.setPosition(frameCurrentPosition);
         }
     }
-         </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="checkReset" class="code-section">
-          <h2>检查重置</h2>
-          <pre><code>
+    <div id="checkReset" class="code-section">
+        <h2>检查重置</h2>
+        <pre><code>
   private void checkReset() {
         if (gamepad1.options && debounce(lastOptionButtonPressTime)) {
             lastOptionButtonPressTime = System.currentTimeMillis();
             resetAll();
         }
     }
-          </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="resetAll" class="code-section">
-           <h2>重置所有</h2>
-           <pre><code>
+    <div id="resetAll" class="code-section">
+        <h2>重置所有</h2>
+        <pre><code>
     private void resetAll() {
         setInitialServoPositions();
         isClawOpen = false;
@@ -411,12 +411,12 @@ public class SingleStickWithRR extends LinearOpMode {
         claw_heng.setPosition(clawHengCurrentPos);
         isLeftBumperFirstPress = true;
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="initializeHardware" class="code-section">
-           <h2>初始化硬件</h2>
-           <pre><code>
+    <div id="initializeHardware" class="code-section">
+        <h2>初始化硬件</h2>
+        <pre><code>
     private void initializeHardware() {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "RightBehindMotor");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "LeftBehindMotor");
@@ -441,12 +441,12 @@ public class SingleStickWithRR extends LinearOpMode {
         Left_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Right_Hanging_Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-       <div id="initializeServos" class="code-section">
-         <h2>初始化舵机</h2>
-         <pre><code>
+    <div id="initializeServos" class="code-section">
+        <h2>初始化舵机</h2>
+        <pre><code>
    private void initializeServos() {
         backgrap = hardwareMap.get(Servo.class, "backgrap");
         forward_slide = hardwareMap.get(Servo.class, "forward_slide");
@@ -461,12 +461,12 @@ public class SingleStickWithRR extends LinearOpMode {
         claw_heng.setPosition(0.55);
         forward_claw.setPosition(1);
     }
-         </code></pre>
-       </div>
+</code></pre>
+    </div>
 
-         <div id="initializeOdometry" class="code-section">
-           <h2>初始化里程计</h2>
-           <pre><code>
+    <div id="initializeOdometry" class="code-section">
+        <h2>初始化里程计</h2>
+        <pre><code>
     private void initializeOdometry() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "goBILDAPinpoint");
         odo.setOffsets(5.5, 121.0);
@@ -475,23 +475,23 @@ public class SingleStickWithRR extends LinearOpMode {
         resetIMU();
         sleep(200);
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-           <div id="setInitialServoPositions" class="code-section">
-               <h2>设置初始舵机位置</h2>
-               <pre><code>
+    <div id="setInitialServoPositions" class="code-section">
+        <h2>设置初始舵机位置</h2>
+        <pre><code>
     private void setInitialServoPositions() {
         forward_slide.setPosition(1);
         arm_forward.setPosition(0.8);
         claw_shu.setPosition(CLAW_SHU_INITIAL_POSITION);
     }
-               </code></pre>
-           </div>
+</code></pre>
+    </div>
 
-          <div id="controlClaw" class="code-section">
-            <h2>控制爪子</h2>
-            <pre><code>
+    <div id="controlClaw" class="code-section">
+        <h2>控制爪子</h2>
+        <pre><code>
     private void controlClaw() {
         if (gamepad1.square && debounce(lastSquareButtonPressTime)) {
             lastSquareButtonPressTime = System.currentTimeMillis();
@@ -500,12 +500,12 @@ public class SingleStickWithRR extends LinearOpMode {
             isClawOpen = !isClawOpen;
         }
     }
-            </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="controlServos" class="code-section">
-         <h2>控制舵机</h2>
-         <pre><code>
+    <div id="controlServos" class="code-section">
+        <h2>控制舵机</h2>
+        <pre><code>
   private void controlServos() {
         if (gamepad1.dpad_up && debounce(lastForwardButtonPressTime)) {
             lastForwardButtonPressTime = System.currentTimeMillis();
@@ -547,12 +547,12 @@ public class SingleStickWithRR extends LinearOpMode {
             isClawHengOpen = !isClawHengOpen;
         }
     }
-         </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="setSlidePosition" class="code-section">
-           <h2>设置滑轨位置</h2>
-           <pre><code>
+    <div id="setSlidePosition" class="code-section">
+        <h2>设置滑轨位置</h2>
+        <pre><code>
     private void setSlidePosition(int position) {
         Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Right_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -566,21 +566,21 @@ public class SingleStickWithRR extends LinearOpMode {
         Left_Hanging_Motor.setPower(1);
         Right_Hanging_Motor.setPower(1);
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="isSlideBusy" class="code-section">
-           <h2>滑轨是否忙碌</h2>
-           <pre><code>
+    <div id="isSlideBusy" class="code-section">
+        <h2>滑轨是否忙碌</h2>
+        <pre><code>
    private boolean isSlideBusy() {
         return !Left_Hanging_Motor.isBusy() && !Right_Hanging_Motor.isBusy();
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="handleSlideMovement" class="code-section">
-           <h2>滑轨运动控制</h2>
-           <pre><code>
+    <div id="handleSlideMovement" class="code-section">
+        <h2>滑轨运动控制</h2>
+        <pre><code>
     private void handleSlideMovement() {
         if (slideState == SlideState.IDLE) {
             Left_Hanging_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -667,7 +667,7 @@ public class SingleStickWithRR extends LinearOpMode {
         if (slideState == SlideState.MOVING_TO_POSITION && Left_Hanging_Motor.getCurrentPosition() >= SLIDE_HIGH_START && !isFrameMoving) {
             frameMoveStartTime = System.currentTimeMillis();
             frameCurrentPosition = FRAME_HOLD_POSITION;
-                         frame.setPosition(frameCurrentPosition);
+            frame.setPosition(frameCurrentPosition);
             isFrameMoving = true;
         }
         if (isAutoSlideDown && slideState == SlideState.IDLE && !isFrameMoving) {
@@ -676,21 +676,21 @@ public class SingleStickWithRR extends LinearOpMode {
             isAutoSlideDown = false;
         }
     }
-           </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-        <div id="debounce" class="code-section">
-          <h2>按钮防抖</h2>
-          <pre><code>
+    <div id="debounce" class="code-section">
+        <h2>按钮防抖</h2>
+        <pre><code>
     private boolean debounce(long lastPressTime) {
         return (System.currentTimeMillis() - lastPressTime) > DEBOUNCE_DELAY;
     }
-          </code></pre>
-        </div>
+</code></pre>
+    </div>
 
-         <div id="updateTelemetry" class="code-section">
-           <h2>更新遥测</h2>
-           <pre><code>
+    <div id="updateTelemetry" class="code-section">
+        <h2>更新遥测</h2>
+        <pre><code>
    private void updateTelemetry(double robotHeading) {
         telemetry.addData("状态", "运行中");
         telemetry.addData("GoBildaIMU", "%.2f", robotHeading);
@@ -703,33 +703,33 @@ public class SingleStickWithRR extends LinearOpMode {
         telemetry.addData("提示", "按下圆形按键控制前爪, 右摇杆控制前爪自由度,  三角键：前爪横向自由度， 交叉键：小臂");
         telemetry.update();
     }
-           </code></pre>
-        </div>
+</code></pre>
     </div>
+</div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.nav-button').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('data-target');
-                    const targetElement = document.getElementById(targetId);
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.nav-button').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
 
-                     document.querySelectorAll('.code-section').forEach(section => {
-                       section.classList.remove('active');
-                   });
-
-                    if(targetElement){
-                        targetElement.classList.add('active');
-                         window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
+                document.querySelectorAll('.code-section').forEach(section => {
+                    section.classList.remove('active');
                 });
+
+                if(targetElement){
+                    targetElement.classList.add('active');
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
-    </script>
+    });
+</script>
 </body>
 </html>
