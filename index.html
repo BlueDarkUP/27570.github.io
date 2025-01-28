@@ -8,40 +8,45 @@
     body {
       font-family: sans-serif;
       margin: 20px;
+      background-color: #f9f9f9;
     }
 
     .nav-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .nav-button {
-      padding: 10px 20px;
-      margin: 0 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: #f0f0f0;
-      transition: background-color 0.3s;
-      text-decoration: none;
-      color: #333;
+        padding: 12px 24px;
+        margin: 0 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: #3498db;
+        color: white;
+        transition: background-color 0.3s, transform 0.2s;
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+         text-align: center;
     }
 
     .nav-button:hover {
-      background-color: #e0e0e0;
+      background-color: #2980b9;
+      transform: translateY(-2px);
     }
 
-    .content-section {
-      display: none;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
+      .content-section {
+         display: none;
+         padding: 30px;
+         border-radius: 10px;
+         margin-bottom: 30px;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+     }
       .content-section.active {
         display: block;
-        animation: fadeIn 0.3s ease-in-out;
+        animation: fadeIn 0.4s ease-in-out;
       }
      @keyframes fadeIn {
        from {
@@ -53,17 +58,35 @@
         transform: translateY(0);
          }
      }
+        .content-section h2 {
+      margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+    }
+    .content-section ul {
+      padding-left: 20px;
+        line-height: 1.6;
+    }
+    .content-section a{
+        color:#3498db;
+        text-decoration: none;
+    }
+    .content-section a:hover{
+        color:#2980b9;
+       text-decoration: underline;
+    }
 
   </style>
 </head>
 <body>
 
   <div class="nav-container">
-    <a href="#关于我们" class="nav-button">关于我们</a>
-    <a href="#我们的技术" class="nav-button">我们的技术</a>
-    <a href="#最新动态" class="nav-button">最新动态</a>
-    <a href="#联系我们" class="nav-button">联系我们</a>
-    <a href="#赞助我们" class="nav-button">赞助我们</a>
+    <a href="#关于我们" class="nav-button" data-target="关于我们">关于我们</a>
+    <a href="#我们的技术" class="nav-button" data-target="我们的技术">我们的技术</a>
+    <a href="#最新动态" class="nav-button" data-target="最新动态">最新动态</a>
+    <a href="#联系我们" class="nav-button" data-target="联系我们">联系我们</a>
+    <a href="#赞助我们" class="nav-button" data-target="赞助我们">赞助我们</a>
   </div>
 
   <div id="关于我们" class="content-section">
@@ -117,7 +140,7 @@
       document.querySelectorAll('.nav-button').forEach(link => {
         link.addEventListener('click', function (e) {
           e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
+          const targetId = this.getAttribute('data-target');
           const targetElement = document.getElementById(targetId);
 
           // 隐藏所有内容部分
@@ -129,7 +152,7 @@
             if(targetElement){
               targetElement.classList.add('active');
              window.scrollTo({
-              top: targetElement.offsetTop - 100, // 调整滚动偏移量
+              top: targetElement.offsetTop - 100,
               behavior: 'smooth'
                });
             }
