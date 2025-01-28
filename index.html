@@ -5,63 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BayiEmbodiedAIRobotic (B.E.A.R.) 团队主页</title>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f8f8;
-      color: #333;
-    }
+      body {
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f8f8f8;
+          color: #333;
+          display: flex;
+          flex-direction: column;
+          align-items: center; /* 水平居中 body 内容 */
+      }
 
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-        padding: 0 20px;
-    }
+      .container {
+          max-width: 1000px;
+          padding: 0 20px;
+          box-sizing: border-box; /* 确保 padding 不影响 max-width */
+      }
 
-    .nav-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap; /* 允许按钮换行 */
-       margin-bottom: 30px;
-       background-color: #fff;
-        padding: 20px 10px;
-       border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+
+      .nav-container {
+          display: flex;
+          justify-content: center; /* 按钮水平居中 */
+          flex-wrap: wrap;
+          margin: 40px auto 30px; /* 上方和下方留白 */
+          background-color: #fff;
+          padding: 20px 10px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          width: 100%; /* 确保 nav-container 占据容器宽度 */
+          max-width: 800px;/*限制按钮的最大宽度*/
+      }
 
       .nav-button {
           padding: 14px 30px;
-        margin: 10px;
-        border: none;
-        border-radius: 30px;
+          margin: 10px;
+          border: none;
+          border-radius: 30px;
           cursor: pointer;
           background-color: #4CAF50;
           color: white;
           transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-        text-decoration: none;
-        font-weight: 600;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-        text-align: center;
-         position: relative;
+          text-decoration: none;
+          font-weight: 600;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+          text-align: center;
+          position: relative;
           overflow: hidden;
       }
 
-     .nav-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2); /* 半透明白色 */
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
+      .nav-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.2); /* 半透明白色 */
+          opacity: 0;
+          transition: opacity 0.2s;
+      }
 
-       .nav-button:hover::before {
-         opacity: 1;
-       }
+      .nav-button:hover::before {
+          opacity: 1;
+      }
 
       .nav-button:hover {
           background-color: #45a049;
@@ -69,56 +75,57 @@
           box-shadow: 0 5px 12px rgba(0,0,0,0.18);
       }
 
-
-    .content-section {
-      display: none;
-      padding: 30px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      background-color: #fff;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-         border: 1px solid #eee;
-    }
+      .content-section {
+          display: none;
+          padding: 30px;
+          border-radius: 12px;
+          margin: 0 auto 30px; /* 水平居中, 下方留白 */
+          background-color: #fff;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          border: 1px solid #eee;
+          width: 100%;
+          max-width: 800px; /* 限制内容区域的最大宽度 */
+          box-sizing: border-box;
+      }
 
       .content-section.active {
-        display: block;
-        animation: fadeIn 0.4s ease-in-out;
+          display: block;
+          animation: fadeIn 0.4s ease-in-out;
       }
-     @keyframes fadeIn {
-       from {
-          opacity: 0;
-          transform: translateY(-10px);
-         }
-      to {
-         opacity: 1;
-        transform: translateY(0);
-         }
-     }
+      @keyframes fadeIn {
+          from {
+              opacity: 0;
+              transform: translateY(-10px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
 
-    .content-section h2 {
-      margin-top: 0;
-      color: #333;
-       border-bottom: 2px solid #eee;
-      padding-bottom: 15px;
-      font-weight: 600;
-    }
+      .content-section h2 {
+          margin-top: 0;
+          color: #333;
+          border-bottom: 2px solid #eee;
+          padding-bottom: 15px;
+          font-weight: 600;
+      }
 
-    .content-section ul {
-      padding-left: 20px;
-        line-height: 1.7;
-    }
+      .content-section ul {
+          padding-left: 20px;
+          line-height: 1.7;
+      }
 
-    .content-section a {
-      color: #4CAF50;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+      .content-section a {
+          color: #4CAF50;
+          text-decoration: none;
+          transition: color 0.2s;
+      }
 
-    .content-section a:hover {
-        color: #45a049;
-       text-decoration: underline;
-    }
-
+      .content-section a:hover {
+          color: #45a049;
+          text-decoration: underline;
+      }
   </style>
 </head>
 <body>
