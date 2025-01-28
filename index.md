@@ -31,6 +31,16 @@
 
 ---
 
+## 导航
+
+- [关于我们](#关于我们)
+- [我们的技术](#我们的技术)
+- [最新动态](#最新动态)
+- [联系我们](#联系我们)
+- [赞助我们](#赞助我们)
+
+---
+
 ## 联系我们
 
 - **Email**: [BlueDarkUP@Gmail.com](mailto:BlueDarkUP@Gmail.com)
@@ -39,6 +49,17 @@
 - **Instagram**: [instagram.com/yangzh0916/?pwa=1](https://instagram.com/yangzh0916/?pwa=1)
 
 我们期待与全球的机器人爱好者和团队建立联系，共同学习与成长！
+
+---
+
+## 赞助我们
+
+您的支持将帮助我们实现更大的梦想！如果您希望赞助我们的团队，请通过以下方式联系我们：
+
+- **Email**: [BlueDarkUP@Gmail.com](mailto:BlueDarkUP@Gmail.com)
+- **电话**: +86 123-456-7890
+
+我们将为赞助商提供丰富的宣传机会，包括比赛期间的标识展示、社交媒体宣传等。
 
 ---
 
